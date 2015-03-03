@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+    <servlet>
+        <servlet-name>adherentServlet</servlet-name>
+        <servlet-class>controleurs.adherentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>oeuvreServlet</servlet-name>
+        <servlet-class>controleurs.oeuvreServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adherentServlet</servlet-name>
+        <url-pattern>*.adherent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>oeuvreServlet</servlet-name>
+        <url-pattern>*.oeuvre</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <resource-ref>
+        <description>Connexion à la base de données Personnel sous MySql</description>
+        <res-ref-name>jdbc/Oeuvres</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+</web-app>
