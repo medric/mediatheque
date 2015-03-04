@@ -8,6 +8,10 @@
         <servlet-name>oeuvreServlet</servlet-name>
         <servlet-class>controleurs.oeuvreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>reservationServlet</servlet-name>
+        <servlet-class>controleurs.reservationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>adherentServlet</servlet-name>
         <url-pattern>*.adherent</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>oeuvreServlet</servlet-name>
         <url-pattern>*.oeuvre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reservationServlet</servlet-name>
+        <url-pattern>*.reservation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
