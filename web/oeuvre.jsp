@@ -23,8 +23,6 @@
             <br><br>
             </p>
             Propriétaire : <SELECT name="lstProprietaires">
-
-
             </SELECT>
             <br><br>
             <input type="submit" value="Envoi">

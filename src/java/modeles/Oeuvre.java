@@ -94,7 +94,8 @@ public class Oeuvre {
         try{
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
-            ps = connection.prepareStatement("select * from oeuvre where id_oeuvre = ?");
+            String requete = "select * from oeuvre where id_oeuvre = ?";
+            ps = connection.prepareStatement(requete);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -168,15 +169,26 @@ public class Oeuvre {
      * @throws Exception
      */
     public void modifier() throws Exception {
-
-/*
-        try {
-
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection connection = null;
+        try{
+            Connexion cnx = new Connexion();
+            connection = cnx.connecter();
+            String requete = "update oeuvre set id_proprietaire = ?, titre = ?, prix = ? where id_oeuvre = ?";
+            ps = connection.prepareStatement(requete);
+            ps.setInt(1, getId_proprietaire());
+            ps.setString(2, getTitre());
+            ps.setDouble(3, getPrix());
+            ps.setInt(4, getId_oeuvre());
+            ps.executeUpdate();
         } catch (Exception e) {
             throw e;
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
@@ -186,7 +198,7 @@ public class Oeuvre {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
     /**
@@ -194,13 +206,26 @@ public class Oeuvre {
      * @throws Exception
      */
     public void ajouter() throws Exception {
-
-        /*
+        PreparedStatement ps = null;
+        Connection connection = null;
         Db_outils db_outils;
         try {
-
-
+            Connexion cnx = new Connexion();
+            connection = cnx.connecter();
+            connection.setAutoCommit(false);
+            db_outils = new Db_outils();
+            setId_oeuvre(db_outils.getIdentifiant(connection, "OEUVRE"));
+            String requete = "insert into oeuvre (id_oeuvre, id_proprietaire, titre, prix)";
+            requete += " values (?, ?, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(requete);
+            ps.setInt(1, getId_oeuvre());
+            ps.setInt(2, getId_proprietaire());
+            ps.setString(3, getTitre());
+            ps.setDouble(4, getPrix());
+            ps.executeUpdate();
+            connection.commit();
         } catch (Exception e) {
+            connection.rollback();
             throw e;
         } finally {
             try {
@@ -213,7 +238,7 @@ public class Oeuvre {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
     
     private void constuire(Oeuvre oeuvre, ResultSet rs) throws SQLException{
