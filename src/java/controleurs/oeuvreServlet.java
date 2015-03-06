@@ -6,6 +6,8 @@
 package controleurs;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +15,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modeles.Oeuvre;
+import modeles.Proprietaire;
 import outils.Utilitaire;
+
 /**
  *
  * @author Epulapp
  */
 @WebServlet(name = "oeuvreServlet", urlPatterns = {"/oeuvreServlet"})
 public class oeuvreServlet extends HttpServlet {
+
     private String erreur;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,35 +40,93 @@ public class oeuvreServlet extends HttpServlet {
             throws ServletException, IOException {
         // Action demandée
         String demande;
-        
+
         // Page à injecter
         String pageReponse = "index.jsp";
-        
+
         try {
             demande = Utilitaire.getDemande(request);
-            
+
             // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
-            if(!Utilitaire.estConnecte(request)) return;
-            
+            if (!Utilitaire.estConnecte(request)) {
+                return;
+            }
+
             if (demande.equalsIgnoreCase("catalogue.oeuvre")) {
                 pageReponse = listerOeuvres(request);
-            } 
+            } else if (demande.equalsIgnoreCase("modifier.oeuvre")) {
+                pageReponse = modifierOeuvre(request);
+            } else if (demande.equalsIgnoreCase("enregistrer.oeuvre")) {
+                pageReponse = enregistrerOeuvre(request);
+            }
         } catch (Exception e) {
             erreur = e.getMessage();
-        }
-        finally {
+        } finally {
             request.setAttribute("erreur", erreur);
             RequestDispatcher dsp = request.getRequestDispatcher(pageReponse);
             dsp.forward(request, response);
         }
     }
-    
+
     private String listerOeuvres(HttpServletRequest request) throws Exception {
         Oeuvre oeuvre;
         String pageReponse;
         try {
             pageReponse = "";
             oeuvre = new Oeuvre();
+            request.setAttribute("lOeuvresR", oeuvre.liste());
+            pageReponse = "/catalogue.jsp";
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private String modifierOeuvre(HttpServletRequest request) throws Exception {
+
+        Oeuvre oeuvre;
+        List<Proprietaire> proprietaires;
+        Proprietaire proprietaire;
+        String pageReponse;
+        int idOeuvre;
+
+        try {
+            pageReponse = "/catalogue.jsp";
+            idOeuvre = Integer.parseInt(request.getParameter("id"));
+            if (idOeuvre > 0) {
+                oeuvre = new Oeuvre();
+                proprietaire = new Proprietaire();
+                proprietaires = proprietaire.liste();
+                oeuvre.lire_Id(idOeuvre);
+                request.setAttribute("oeuvreR", oeuvre);
+                request.setAttribute("lstProprietairesR", proprietaires);
+                request.setAttribute("titre", "Modifier une oeuvre");
+                pageReponse = "/oeuvre.jsp";
+            } else {
+                erreur = "Utilisateur inconnu !";
+            }
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private String enregistrerOeuvre(HttpServletRequest request) throws Exception {
+        Oeuvre oeuvre;
+        String pageReponse;
+        int idOeuvre;
+        try {
+            oeuvre = new Oeuvre();
+            idOeuvre = Integer.parseInt(request.getParameter("id"));
+            oeuvre.setId_oeuvre(idOeuvre);
+            oeuvre.setTitre(request.getParameter("txtTitre"));
+            oeuvre.setPrix(Double.parseDouble(request.getParameter("txtPrix")));
+            oeuvre.setId_proprietaire(Integer.parseInt(request.getParameter("lstProprietaires")));
+            if (idOeuvre > 0) {
+                oeuvre.modifier();
+            } else {
+                oeuvre.ajouter();
+            }
             request.setAttribute("lOeuvresR", oeuvre.liste());
             pageReponse = "/catalogue.jsp";
             return (pageReponse);

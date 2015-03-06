@@ -35,8 +35,8 @@
                         <td>${oeuvre.prix}</td>
                         <td>${oeuvre.proprietaire.getPrenom_proprietaire() }</td>
                         <td>${oeuvre.proprietaire.getNom_proprietaire() }</td>
-                        <td><a href="oeuvre.reserver?id=${oeuvre.id_oeuvre}">Réserver</a></td>
-                        <td><a href="oeuvre.modifier?id=${oeuvre.id_oeuvre}">Modifier</a></td>
+                        <td><a href="reserver.oeuvre?id=${oeuvre.id_oeuvre}">Réserver</a></td>
+                        <td><a href="modifier.oeuvre?id=${oeuvre.id_oeuvre}">Modifier</a></td>
                     </tr>
                 </c:forEach>
             </table>
