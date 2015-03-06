@@ -56,6 +56,9 @@ public class reservationServlet extends HttpServlet {
             else if(demande.equalsIgnoreCase("enregistrer.reservation")) {
                 pageReponse = enregistrerReservation(request);
             }
+            else if(demande.equalsIgnoreCase("confirmer.reservation")) {
+                pageReponse = confirmerReservation(request);
+            }
         } catch (Exception e) {
             erreur = e.getMessage();
         }
@@ -96,6 +99,21 @@ public class reservationServlet extends HttpServlet {
             reservation.setDate_reservation(request.getParameter("txtDate"));
             reservation.ajouter();
             
+            pageReponse = listerReservation(request);
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private String confirmerReservation(HttpServletRequest request) throws Exception {
+        Reservation reservation;
+        String pageReponse;
+        try {
+            int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
+            String date = request.getParameter("date");
+            reservation = new Reservation();
+            reservation.valider(idOeuvre, date);
             pageReponse = listerReservation(request);
             return (pageReponse);
         } catch (Exception e) {

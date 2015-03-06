@@ -150,16 +150,24 @@ public class Reservation {
     }
 
     /**
-     * Met à jour une Réservation dans la base de données
+     * Confirme une Réservation dans la base de données
      * @throws Exception
      */
-    public void modifier() throws Exception {
-
-
-        /*try {
-
-
+    public void valider(int idOeuvre, String date) throws Exception {
+        PreparedStatement ps = null;
+        Connection connection = null;
+        try {
+            Connexion cnx = new Connexion();
+            connection = cnx.connecter();
+            connection.setAutoCommit(false);
+            String requete = "update reservation set statut = 'Confirmée' where id_oeuvre = ? and date = ?";
+            ps = connection.prepareStatement(requete);
+            ps.setInt(1, idOeuvre);
+            ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "jj/mm/aaaa").getTime()));
+            ps.executeUpdate();
+            connection.commit();
         } catch (Exception e) {
+            connection.rollback();
             throw e;
         } finally {
             try {
@@ -172,11 +180,33 @@ public class Reservation {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
+        }
+    }
+    
+    public void modifier(int id) throws Exception {
+        PreparedStatement ps = null;
+        Connection connection = null;
+        try {
+          
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     /**
-     * Insert une Réservation dans la base de données
+     * Modifie une Réservation dans la base de données
      * @throws Exception
      */
     public void ajouter() throws Exception {

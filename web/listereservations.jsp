@@ -29,11 +29,11 @@
                  <c:forEach var="reservation" items="${lReservationsR}">
                     <tr>
                         <td>FOO</td>
-                        <td>${reservation.getDate_reservation()}</td>
-                        <td>${reservation.getStatut()}</td>
-                        <td>${reservation.getAdherent().getPrenom_adherent()}</td>
-                        <td>${reservation.getAdherent().getNom_adherent()}</td>
-                        <td><a href="id=">Confirmer</a></td>
+                        <td>${reservation.date_reservation}</td>
+                        <td>${reservation.statut}</td>
+                        <td>${reservation.adherent.prenom_adherent}</td>
+                        <td>${reservation.adherent.nom_adherent}</td>
+                        <td><a href="confirmer.reservation?idOeuvre=${reservation.oeuvre.id_oeuvre}&&date=${reservation.date_reservation}">Confirmer</a></td>
                     </tr>
                 </c:forEach>
             </table>
