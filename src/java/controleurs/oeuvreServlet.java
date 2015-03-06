@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import modeles.Oeuvre;
 import modeles.Proprietaire;
 import outils.Utilitaire;
@@ -54,6 +55,8 @@ public class oeuvreServlet extends HttpServlet {
 
             if (demande.equalsIgnoreCase("catalogue.oeuvre")) {
                 pageReponse = listerOeuvres(request);
+            } else if (demande.equalsIgnoreCase("creer.oeuvre")) {
+                pageReponse = creerOeuvre(request);
             } else if (demande.equalsIgnoreCase("modifier.oeuvre")) {
                 pageReponse = modifierOeuvre(request);
             } else if (demande.equalsIgnoreCase("enregistrer.oeuvre")) {
@@ -76,6 +79,29 @@ public class oeuvreServlet extends HttpServlet {
             oeuvre = new Oeuvre();
             request.setAttribute("lOeuvresR", oeuvre.liste());
             pageReponse = "/catalogue.jsp";
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private String creerOeuvre(HttpServletRequest request) throws Exception {
+
+        Oeuvre oeuvre;
+        List<Proprietaire> proprietaires;
+        Proprietaire proprietaire;
+        String pageReponse;
+
+        try {
+            oeuvre = new Oeuvre();
+            request.setAttribute("oeuvreR", oeuvre);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("id", 0);            
+            proprietaire = new Proprietaire();
+            proprietaires = proprietaire.liste();
+            request.setAttribute("lstProprietairesR", proprietaires);
+            request.setAttribute("titre", "Créer une oeuvre");
+            pageReponse = "/oeuvre.jsp";
             return (pageReponse);
         } catch (Exception e) {
             throw e;
