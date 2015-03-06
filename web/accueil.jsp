@@ -17,12 +17,12 @@
         <h1 align="center">Gestion des oeuvres</h1>
         <p align="center">
             <a href="xxxxxxx">Ajouter une oeuvre</a><br>
-            <a href="xxxxxxx">Confirmer une réservation</a><br>
+            <a href="liste.reservation">Confirmer une réservation</a><br>
             <a href="catalogue.oeuvre">Consulter le catalogue</a><br>
             <a href="adherent.deconnecter">Se déconnecter</a>
         </p>
-            <p>
-
-            </p>
+        <p>
+            <c:out value="${erreur}"/>      
+        </p>
     </body>
 </html>

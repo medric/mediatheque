@@ -6,12 +6,16 @@
 package controleurs;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modeles.Adherent;
+import modeles.Oeuvre;
+import modeles.Reservation;
+import outils.Utilitaire;
 
 /**
  *
@@ -19,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "reservationServlet", urlPatterns = {"/reservationServlet"})
 public class reservationServlet extends HttpServlet {
-
+    private String erreur;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,21 +35,87 @@ public class reservationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet reservationServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet reservationServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        // Action demandée
+        String demande;
+        
+        // Page à injecter
+        String pageReponse = "reservation.jsp";
+        
+        try {
+            demande = Utilitaire.getDemande(request);
+            
+            // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
+            if(!Utilitaire.estConnecte(request)) return;
+            
+            if (demande.equalsIgnoreCase("liste.reservation")) {
+                pageReponse = listerReservation(request);
+            } 
+            else if(demande.equalsIgnoreCase("ajouter.reservation")) {
+                pageReponse = ajouterReservation(request);
+            }
+            else if(demande.equalsIgnoreCase("enregistrer.reservation")) {
+                pageReponse = enregistrerReservation(request);
+            }
+        } catch (Exception e) {
+            erreur = e.getMessage();
+        }
+        finally {
+            request.setAttribute("erreur", erreur);
+            RequestDispatcher dsp = request.getRequestDispatcher(pageReponse);
+            dsp.forward(request, response);
         }
     }
-
+    
+    private String ajouterReservation(HttpServletRequest request) throws Exception {
+        Oeuvre oeuvre;
+        Adherent adherent;
+        String pageReponse;
+        int id_oeuvre;
+        try {
+            id_oeuvre = Integer.parseInt(request.getParameter("id"));
+            oeuvre = new Oeuvre();
+            adherent = new Adherent();
+            oeuvre.lire_Id(id_oeuvre);
+            request.setAttribute("oeuvreR", oeuvre);
+            request.setAttribute("lAdhrentsR", adherent.liste());
+            pageReponse = "/reservation.jsp";
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private String enregistrerReservation(HttpServletRequest request) throws Exception {
+        Reservation reservation;
+        String pageReponse;
+        try {
+            int idAdherent = Integer.parseInt(request.getParameter("lstAdherents"));
+            int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
+            
+            reservation = new Reservation(idOeuvre, idAdherent);
+            reservation.setDate_reservation(request.getParameter("txtDate"));
+            reservation.ajouter();
+            
+            pageReponse = listerReservation(request);
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private String listerReservation(HttpServletRequest request) throws Exception {
+        Reservation reservation;
+        String pageReponse;
+        try {
+            pageReponse = "";
+            reservation = new Reservation();
+            request.setAttribute("lReservationsR", reservation.liste());
+            pageReponse = "/listereservations.jsp";
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

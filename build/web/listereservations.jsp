@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -25,8 +26,16 @@
                     <td>Nom adhérent</td>
                     <td>Confirmer</td>
                 </tr>
-
-
+                 <c:forEach var="reservation" items="${lReservationsR}">
+                    <tr>
+                        <td>FOO</td>
+                        <td>${reservation.getDate_reservation()}</td>
+                        <td>${reservation.getStatut()}</td>
+                        <td>${reservation.getAdherent().getPrenom_adherent()}</td>
+                        <td>${reservation.getAdherent().getNom_adherent()}</td>
+                        <td><a href="id=">Confirmer</a></td>
+                    </tr>
+                </c:forEach>
             </table>
             <a href="xxxxxxxx">Accueil</a>
             <p>

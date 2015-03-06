@@ -137,7 +137,8 @@ public class Oeuvre {
         try {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
-            ps = connection.prepareStatement("select * from oeuvre");
+            String requete = "select * from oeuvre";
+            ps = connection.prepareStatement(requete);
             rs = ps.executeQuery();
             
             while (rs.next()) {
