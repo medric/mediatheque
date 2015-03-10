@@ -16,7 +16,7 @@
     <body>
         <h1 align="center">Gestion des oeuvres</h1>
         <p align="center">
-            <a href="xxxxxxx">Ajouter une oeuvre</a><br>
+            <a href="creer.oeuvre">Ajouter une oeuvre</a><br>
             <a href="liste.reservation">Confirmer une réservation</a><br>
             <a href="catalogue.oeuvre">Consulter le catalogue</a><br>
             <a href="adherent.deconnecter">Se déconnecter</a>

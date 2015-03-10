@@ -217,7 +217,7 @@ public class Oeuvre {
             db_outils = new Db_outils();
             setId_oeuvre(db_outils.getIdentifiant(connection, "OEUVRE"));
             String requete = "insert into oeuvre (id_oeuvre, id_proprietaire, titre, prix)";
-            requete += " values (?, ?, ?, ?, ?, ?, ?)";
+            requete += " values (?, ?, ?, ?)";
             ps = connection.prepareStatement(requete);
             ps.setInt(1, getId_oeuvre());
             ps.setInt(2, getId_proprietaire());
