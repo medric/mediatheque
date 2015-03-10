@@ -32,6 +32,7 @@ public class Utilitaire {
             SimpleDateFormat format = new SimpleDateFormat(formatDate);
             date_retour = format.parse(strDate);
         } catch (Exception e) {
+            throw e;
         }
         return date_retour;
     }
@@ -49,6 +50,7 @@ public class Utilitaire {
             SimpleDateFormat format = new SimpleDateFormat(formatDate);
             date_retour = format.format(uneDate);
         } catch (Exception e) {
+            throw e;
         }
         return date_retour;
     }

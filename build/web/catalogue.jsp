@@ -40,7 +40,7 @@
                     </tr>
                 </c:forEach>
             </table>
-            <a href="">Accueil</a>
+            <a href="accueil.jsp">Accueil</a>
             <p>
 
             </p>

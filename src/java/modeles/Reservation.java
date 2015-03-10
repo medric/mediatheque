@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import outils.Utilitaire;
 
-
-
 /**
  *
  * @author alain
@@ -97,16 +95,19 @@ public class Reservation {
         return date_reservation;
     }
 
+    public String formatDateReservation(String format) throws Exception {
+        return Utilitaire.DateToStr(date_reservation, format);
+    }
+    
     /**
      * Convertit une chaîne en date avant de l'affecter
      * @param date_reservation
      * @throws Exception
      */
-    public void setDate_reservation(String date_reservation) throws Exception {
-        this.date_reservation = Utilitaire.StrToDate(date_reservation, "dd/MM/yyyy");
+    public void setDate_reservation(Date date_reservation) throws Exception {
+        this.date_reservation = date_reservation;
     }
-
-
+   
     /**
      * Liste des Réservations en Attente
      * @return List<Reservation> Collection de Réservations
@@ -126,7 +127,7 @@ public class Reservation {
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                reservation = new Reservation(rs.getInt("id_proprietaire"), rs.getInt("id_oeuvre"));
+                reservation = new Reservation(rs.getInt("id_oeuvre"), rs.getInt("id_adherent"));
                 // Construit l'objet à partir du ResulSet retourné
                 constuire(reservation, rs);
                 lReservations.add(reservation);
@@ -160,10 +161,10 @@ public class Reservation {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
             connection.setAutoCommit(false);
-            String requete = "update reservation set statut = 'Confirmée' where id_oeuvre = ? and date = ?";
+            String requete = "update reservation set statut = 'Confirmée' where id_oeuvre = ? and date_reservation = ?";
             ps = connection.prepareStatement(requete);
             ps.setInt(1, idOeuvre);
-            ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "jj/mm/aaaa").getTime()));
+            ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "yyyy-MM-dd").getTime()));
             ps.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -182,29 +183,7 @@ public class Reservation {
             }
         }
     }
-    
-    public void modifier(int id) throws Exception {
-        PreparedStatement ps = null;
-        Connection connection = null;
-        try {
-          
-        } catch (Exception e) {
-            connection.rollback();
-            throw e;
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
+   
     /**
      * Modifie une Réservation dans la base de données
      * @throws Exception
@@ -241,10 +220,44 @@ public class Reservation {
             }
         }
     }
+    
+    /**
+    * Modifie une Réservation dans la base de données
+    * @throws Exception
+    */
+    public void supprimer(int idOeuvre, String date) throws Exception {
+        PreparedStatement ps = null;
+        Connection connection = null;
+        try {
+            Connexion cnx = new Connexion();
+            connection = cnx.connecter();
+            connection.setAutoCommit(false);
+            String requete = "delete from reservation where id_oeuvre = ? and date_reservation = ?";
+            ps = connection.prepareStatement(requete);
+            ps.setInt(1, idOeuvre);
+            ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "yyyy-MM-dd").getTime()));
+            ps.executeUpdate();
+            connection.commit();
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
 
     private void constuire(Reservation reservation, ResultSet rs) throws SQLException, Exception{
         reservation.setId_adherent(rs.getInt("id_adherent"));
         reservation.setId_oeuvre(rs.getInt("id_oeuvre"));
-        reservation.setDate_reservation(rs.getString("date_reservation"));
+        reservation.setStatut(rs.getString("statut"));
+        reservation.setDate_reservation(rs.getDate("date_reservation"));
     }
 }

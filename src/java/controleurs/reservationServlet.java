@@ -38,19 +38,24 @@ public class reservationServlet extends HttpServlet {
         // Action demandée
         String demande;
         
-        // Page à injecter
-        String pageReponse = "reservation.jsp";
+        // Page par défaut
+        String pageReponse =  request.getHeader("referer");
+        
+        // Réinitialisation de l'erreur si la requête vient du catalogue
+        if(pageReponse.endsWith("catalogue.oeuvre")) {
+            erreur = "";
+        }
         
         try {
             demande = Utilitaire.getDemande(request);
             
             // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
             if(!Utilitaire.estConnecte(request)) return;
-            
+                
             if (demande.equalsIgnoreCase("liste.reservation")) {
                 pageReponse = listerReservation(request);
             } 
-            else if(demande.equalsIgnoreCase("ajouter.reservation")) {
+            else if(demande.equalsIgnoreCase("ajouter.reservation")) {   
                 pageReponse = ajouterReservation(request);
             }
             else if(demande.equalsIgnoreCase("enregistrer.reservation")) {
@@ -58,6 +63,9 @@ public class reservationServlet extends HttpServlet {
             }
             else if(demande.equalsIgnoreCase("confirmer.reservation")) {
                 pageReponse = confirmerReservation(request);
+            }
+            else if(demande.equalsIgnoreCase("supprimer.reservation")) {
+                pageReponse = supprimerReservation(request);
             }
         } catch (Exception e) {
             erreur = e.getMessage();
@@ -82,6 +90,7 @@ public class reservationServlet extends HttpServlet {
             request.setAttribute("oeuvreR", oeuvre);
             request.setAttribute("lAdhrentsR", adherent.liste());
             pageReponse = "/reservation.jsp";
+        
             return (pageReponse);
         } catch (Exception e) {
             throw e;
@@ -94,9 +103,10 @@ public class reservationServlet extends HttpServlet {
         try {
             int idAdherent = Integer.parseInt(request.getParameter("lstAdherents"));
             int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
+            String dateReservation = request.getParameter("txtDate");
             
             reservation = new Reservation(idOeuvre, idAdherent);
-            reservation.setDate_reservation(request.getParameter("txtDate"));
+            reservation.setDate_reservation(Utilitaire.StrToDate(dateReservation, "dd/MM/yyyy"));
             reservation.ajouter();
             
             pageReponse = listerReservation(request);
@@ -121,11 +131,25 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+     private String supprimerReservation(HttpServletRequest request) throws Exception {
+        Reservation reservation;
+        String pageReponse;
+        try {
+            int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
+            String date = request.getParameter("date");
+            reservation = new Reservation();
+            reservation.supprimer(idOeuvre, date);
+            pageReponse = listerReservation(request);
+            return (pageReponse);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
     private String listerReservation(HttpServletRequest request) throws Exception {
         Reservation reservation;
         String pageReponse;
         try {
-            pageReponse = "";
             reservation = new Reservation();
             request.setAttribute("lReservationsR", reservation.liste());
             pageReponse = "/listereservations.jsp";
@@ -172,5 +196,4 @@ public class reservationServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

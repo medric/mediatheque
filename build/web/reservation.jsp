@@ -24,7 +24,7 @@
             <br><br>
             </p>
             <p>
-            Date réservation : <input type="text" name="txtDate" value=""> Format : JJ/MM/AAAA
+            Date réservation : <input type="text" name="txtDate"> Format : JJ/MM/AAAA
             <br><br>
             </p>
             Adhérent : <select name="lstAdherents">
@@ -36,6 +36,7 @@
             <input type="hidden" name="idOeuvre" value="${oeuvreR.id_oeuvre}">
             <input type="submit" value="Envoi">
             <p>
+                <c:out value="${erreur}"/> 
             </p>
         </form>
     </body>

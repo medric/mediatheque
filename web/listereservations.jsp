@@ -25,19 +25,21 @@
                     <td>Prénom adhérent</td>
                     <td>Nom adhérent</td>
                     <td>Confirmer</td>
+                    <td>Supprimer</td>
                 </tr>
                  <c:forEach var="reservation" items="${lReservationsR}">
                     <tr>
-                        <td>FOO</td>
-                        <td>${reservation.date_reservation}</td>
+                        <td>${reservation.oeuvre.titre}</td>
+                        <td>${reservation.formatDateReservation('dd/MM/yyyy')}</td>
                         <td>${reservation.statut}</td>
                         <td>${reservation.adherent.prenom_adherent}</td>
                         <td>${reservation.adherent.nom_adherent}</td>
-                        <td><a href="confirmer.reservation?idOeuvre=${reservation.oeuvre.id_oeuvre}&&date=${reservation.date_reservation}">Confirmer</a></td>
+                        <td><a href="confirmer.reservation?idOeuvre=${reservation.oeuvre.id_oeuvre}&date=${reservation.date_reservation}">Confirmer</a></td>
+                        <td><a href="supprimer.reservation?idOeuvre=${reservation.oeuvre.id_oeuvre}&date=${reservation.date_reservation}">Supprimer</a></td>
                     </tr>
                 </c:forEach>
             </table>
-            <a href="xxxxxxxx">Accueil</a>
+            <a href="accueil.jsp">Accueil</a>
             <p>
 
             </p>
