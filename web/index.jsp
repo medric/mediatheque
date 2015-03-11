@@ -12,7 +12,7 @@
         <h1 align='center'>Accès application Oeuvres</h1>
         <form action="login.adherent" method="post" name="frmLogin">
             <p>
-            Login : <input type="text" name="txtLogin">
+            Login : <input type="text" name="txtLogin" value="${pageContext.request.getParameter("txtLogin")}">
             <br><br>
             Mot de passe : <input type="password" name="txtPwd">
             </p>

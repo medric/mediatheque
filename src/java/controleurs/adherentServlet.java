@@ -42,7 +42,7 @@ public class adherentServlet extends HttpServlet {
         
         // On initialise les identifiants de manière brute
         identifiants = new HashMap<String, String>();
-        identifiants.put("admin", "admin");
+        identifiants.put("admin", "mdp");
         
         // Action demandée
         String demande;
@@ -55,6 +55,9 @@ public class adherentServlet extends HttpServlet {
             
             if (demande.equalsIgnoreCase("login.adherent")) {
                 pageReponse = connecter(request);
+            } 
+            else if (demande.equalsIgnoreCase("deconnecter.adherent")) {
+                pageReponse = deconnecter(request);
             } 
         } catch (Exception e) {
             erreur = e.getMessage();
@@ -81,7 +84,7 @@ public class adherentServlet extends HttpServlet {
             pwd = request.getParameter("txtPwd");
             if(identifiants.containsKey(login)) {
                 if (identifiants.get(login).equals(pwd)) {
-                    pageReponse = "/accueil.jsp";
+                    pageReponse = "accueil.jsp";
                     // Mise en session
                     HttpSession session = request.getSession(true);
                     session.setAttribute("id", login);
