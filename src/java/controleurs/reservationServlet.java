@@ -39,18 +39,23 @@ public class reservationServlet extends HttpServlet {
             throws ServletException, IOException {
         // Action demandée
         String demande;
-        // Page par défaut
-        String pageReponse = request.getHeader("referer");
-        // Réinitialisation de l'erreur si la requête vient du catalogue
-        if (pageReponse.endsWith("catalogue.oeuvre")) {
+        
+        // Page à injecter par défaut
+        String pageReponse =  request.getHeader("referer");
+        
+        // Réinitialisation de l'erreur si la requête vient de la page "catalogue"
+        if(pageReponse.endsWith("catalogue.oeuvre")) {
             erreur = "";
         }
         try {
             demande = Utilitaire.getDemande(request);
-            // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
-            if (!Utilitaire.estConnecte(request)) {
+            
+            // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
+            if(!Utilitaire.estConnecte(request)) {
+                pageReponse = "/";
                 return;
             }
+            
             if (demande.equalsIgnoreCase("liste.reservation")) {
                 pageReponse = listerReservation(request);
             } else if (demande.equalsIgnoreCase("ajouter.reservation")) {
