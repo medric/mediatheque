@@ -7,7 +7,6 @@ package controleurs;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,21 +38,21 @@ public class oeuvreServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
+        Utilitaire.authRedirect(request, response);
+            
         // Action demandée
         String demande;
 
         // Page à injecter par défaut
-        String pageReponse = request.getHeader("referer");
-
+        String pageReponse = "";
+        
+        HttpSession session = request.getSession(true);
+        
         try {
             demande = Utilitaire.getDemande(request);
-
-            // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
-            if (!Utilitaire.estConnecte(request)) {
-                pageReponse = "/";
-                return;
-            }
-            
+                       
             if (demande.equalsIgnoreCase("catalogue.oeuvre")) {
                 pageReponse = listerOeuvres(request);
             } else if (demande.equalsIgnoreCase("creer.oeuvre")) {
@@ -62,11 +61,23 @@ public class oeuvreServlet extends HttpServlet {
                 pageReponse = modifierOeuvre(request);
             } else if (demande.equalsIgnoreCase("enregistrer.oeuvre")) {
                 pageReponse = enregistrerOeuvre(request);
+                erreur = null;
             }
         } catch (Exception e) {
+            // Si une erreur survient, on enregistre en session l'url d'origine de la requête, et on redirige l'utilisateur vers cette même URL (évite les boucles de redirection)
+            if(session.getAttribute("redirect") == null) {
+                session.setAttribute("redirect",  request.getHeader("Referer"));
+            }
+            
+            pageReponse = session.getAttribute("redirect").toString();
             erreur = e.getMessage();
         } finally {
-            request.setAttribute("erreur", erreur);
+            if(erreur == null) {
+                session.setAttribute("redirect", null);
+            }
+            else {
+                request.setAttribute("erreur", erreur);
+            }
             RequestDispatcher dsp = request.getRequestDispatcher(pageReponse);
             dsp.forward(request, response);
         }

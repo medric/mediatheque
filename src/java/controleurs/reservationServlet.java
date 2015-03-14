@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import modeles.Adherent;
 import modeles.Oeuvre;
 import modeles.Reservation;
@@ -37,24 +38,20 @@ public class reservationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
+        Utilitaire.authRedirect(request, response);
+
         // Action demandée
         String demande;
         
-        // Page à injecter par défaut
-        String pageReponse =  request.getHeader("referer");
+        // Page à injecter
+        String pageReponse = "";
         
-        // Réinitialisation de l'erreur si la requête vient de la page "catalogue"
-        if(pageReponse.endsWith("catalogue.oeuvre")) {
-            erreur = "";
-        }
+        HttpSession session = request.getSession(true);
+       
         try {
             demande = Utilitaire.getDemande(request);
-            
-            // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
-            if(!Utilitaire.estConnecte(request)) {
-                pageReponse = "/";
-                return;
-            }
             
             if (demande.equalsIgnoreCase("liste.reservation")) {
                 pageReponse = listerReservation(request);
@@ -62,15 +59,31 @@ public class reservationServlet extends HttpServlet {
                 pageReponse = ajouterReservation(request);
             } else if (demande.equalsIgnoreCase("enregistrer.reservation")) {
                 pageReponse = enregistrerReservation(request);
+                erreur = null;
             } else if (demande.equalsIgnoreCase("confirmer.reservation")) {
                 pageReponse = confirmerReservation(request);
+                erreur = null;
             } else if (demande.equalsIgnoreCase("supprimer.reservation")) {
                 pageReponse = supprimerReservation(request);
+                erreur = null;
             }
         } catch (Exception e) {
+            // Si une erreur survient, on enregistre en session l'url d'origine de la requête, et on redirige l'utilisateur vers cette même URL (évite les boucles de redirection)
+            if(session.getAttribute("redirect") == null) {
+                session.setAttribute("redirect",  request.getHeader("Referer"));
+            }
+            
+            pageReponse = session.getAttribute("redirect").toString();
             erreur = e.getMessage();
         } finally {
-            request.setAttribute("erreur", erreur);
+            if(erreur == null) {
+                // Si il n y a pas d'erreur, on vide la variable de session
+                session.setAttribute("redirect", null);
+            }
+            else {
+                request.setAttribute("erreur", erreur);
+            }
+            
             RequestDispatcher dsp = request.getRequestDispatcher(pageReponse);
             dsp.forward(request, response);
         }
@@ -117,9 +130,6 @@ public class reservationServlet extends HttpServlet {
             int idAdherent = Integer.parseInt(request.getParameter("lstAdherents"));
             int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
             String dateReservation = request.getParameter("txtDate");
-            reservation = new Reservation(idOeuvre, idAdherent);
-            reservation.setDate_reservation(Utilitaire.StrToDate(dateReservation, "dd/MM/yyyy"));
-            reservation.ajouter();
             reservation = new Reservation(idOeuvre, idAdherent);
             reservation.setDate_reservation(Utilitaire.StrToDate(dateReservation, "dd/MM/yyyy"));
             reservation.ajouter();

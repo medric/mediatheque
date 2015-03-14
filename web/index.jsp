@@ -6,8 +6,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>Login</title>
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -19,9 +19,13 @@
                         <input type="text" name="txtLogin" placeholder="Saisir login..." value="${pageContext.request.getParameter("txtLogin")}" required="Veuillez compléter ce champ."></br></br>
                         <label>Mot de passe :</label></br>
                         <input type="password" name="txtPwd" placeholder="Saisir mot de passe..." required="Veuillez compléter ce champ."></br></br>
-                        <input type="submit" value="Envoi"class="btn">
+                        <input type="submit" value="Se connecter"class="btn">
                     </fieldset>
-                    <c:out value="${erreur}"/>  
+                    <c:if test="${erreur != null}">
+                        <div class="alert alert-danger" role="alert">
+                             <c:out value="${erreur}"/>  
+                        </div>
+                    </c:if>
                 </form>
             </div>
         </div>

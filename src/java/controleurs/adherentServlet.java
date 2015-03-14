@@ -52,7 +52,7 @@ public class adherentServlet extends HttpServlet {
         
         try {
             demande = Utilitaire.getDemande(request);
-            
+                
             if (demande.equalsIgnoreCase("login.adherent")) {
                 pageReponse = connecter(request);
             } 
@@ -89,10 +89,10 @@ public class adherentServlet extends HttpServlet {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("id", login);
                 } else {
-                    erreur = "Login ou mot de passe inconnus !";
+                    erreur = "Login ou mot de passe inconnu !";
                 }
             } else {
-                erreur = "Login ou mot de passe inconnus !";
+                erreur = "Login ou mot de passe inconnu !";
             }
         } catch (Exception e) {
             erreur = e.getMessage();
