@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modeles;
 
 import dao.*;
@@ -13,12 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author alain
  */
 public class Adherent {
+
     private int id_adherent;
     private String nom_adherent;
     private String prenom_adherent;
@@ -70,6 +69,7 @@ public class Adherent {
 
     /**
      * Lecture d'un adhérent dans la base de données
+     *
      * @param id Id de l'adhérent à lire
      * @throws Exception
      */
@@ -77,7 +77,7 @@ public class Adherent {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection connection = null;
-        try{
+        try {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
             String requete = "select * from adherent where id_adherent = ?";
@@ -111,6 +111,7 @@ public class Adherent {
 
     /**
      * Liste des adhérents
+     *
      * @return List<Adherent> Collection d'adhérents
      * @throws Exception
      */
@@ -126,15 +127,15 @@ public class Adherent {
             String requete = "select * from adherent";
             ps = connection.prepareStatement(requete);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 adherent = new Adherent();
                 // Construit l'objet à partir du ResulSet retourné
                 constuire(adherent, rs);
                 lAdherents.add(adherent);
             }
-         
-            return(lAdherents);
+
+            return (lAdherents);
         } catch (Exception e) {
             throw e;
         } finally {
@@ -150,14 +151,15 @@ public class Adherent {
             }
         }
     }
-    
+
     /**
      * Construction d'un adherent à partir des setters
+     *
      * @param adherent
      * @param rs
-     * @throws SQLException 
+     * @throws SQLException
      */
-    private void constuire(Adherent adherent, ResultSet rs) throws SQLException{
+    private void constuire(Adherent adherent, ResultSet rs) throws SQLException {
         adherent.setId_adherent(rs.getInt("id_adherent"));
         adherent.setNom_adherent(rs.getString("nom_adherent"));
         adherent.setPrenom_adherent(rs.getString("prenom_adherent"));

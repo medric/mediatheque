@@ -179,6 +179,7 @@ public class oeuvreServlet extends HttpServlet {
                 oeuvre.ajouter();
             }
             request.setAttribute("lOeuvresR", oeuvre.liste());
+            request.setAttribute("titre", "Oeuvre");
             pageReponse = "/catalogue.jsp";
             return (pageReponse);
         } catch (Exception e) {

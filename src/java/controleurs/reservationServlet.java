@@ -39,23 +39,18 @@ public class reservationServlet extends HttpServlet {
             throws ServletException, IOException {
         // Action demandée
         String demande;
-
         // Page par défaut
         String pageReponse = request.getHeader("referer");
-
         // Réinitialisation de l'erreur si la requête vient du catalogue
         if (pageReponse.endsWith("catalogue.oeuvre")) {
             erreur = "";
         }
-
         try {
             demande = Utilitaire.getDemande(request);
-
             // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
             if (!Utilitaire.estConnecte(request)) {
                 return;
             }
-
             if (demande.equalsIgnoreCase("liste.reservation")) {
                 pageReponse = listerReservation(request);
             } else if (demande.equalsIgnoreCase("ajouter.reservation")) {
@@ -97,7 +92,6 @@ public class reservationServlet extends HttpServlet {
             request.setAttribute("lAdhrentsR", adherent.liste());
             request.setAttribute("titre", "Réservation d'une oeuvre");
             pageReponse = "/reservation.jsp";
-
             return (pageReponse);
         } catch (Exception e) {
             throw e;
@@ -118,11 +112,12 @@ public class reservationServlet extends HttpServlet {
             int idAdherent = Integer.parseInt(request.getParameter("lstAdherents"));
             int idOeuvre = Integer.parseInt(request.getParameter("idOeuvre"));
             String dateReservation = request.getParameter("txtDate");
-
             reservation = new Reservation(idOeuvre, idAdherent);
             reservation.setDate_reservation(Utilitaire.StrToDate(dateReservation, "dd/MM/yyyy"));
             reservation.ajouter();
-
+            reservation = new Reservation(idOeuvre, idAdherent);
+            reservation.setDate_reservation(Utilitaire.StrToDate(dateReservation, "dd/MM/yyyy"));
+            reservation.ajouter();
             pageReponse = listerReservation(request);
             return (pageReponse);
         } catch (Exception e) {
@@ -187,7 +182,6 @@ public class reservationServlet extends HttpServlet {
         try {
             reservation = new Reservation();
             request.setAttribute("lReservationsR", reservation.liste());
-            request.setAttribute("titre", "Liste des réservations");
             pageReponse = "/listereservations.jsp";
             return (pageReponse);
         } catch (Exception e) {

@@ -34,6 +34,7 @@ public class Reservation {
 
     /**
      * Initialise l'Adhérent et l'Oeuvre de la Reservation
+     *
      * @param id_oeuvre Id de l'oeuvre réservée
      * @param id_adherent Id de l'adhérent réservant
      * @throws Exception
@@ -43,14 +44,14 @@ public class Reservation {
         oeuvre.lire_Id(id_oeuvre);
         Adherent adherent = new Adherent();
         adherent.lire_Id(id_adherent);
-        
+
         setId_oeuvre(id_oeuvre);
         setId_adherent(id_adherent);
         // Set oeuvre et adhérent
         setOeuvre(oeuvre);
         setAdherent(adherent);
     }
-    
+
     public Adherent getAdherent() {
         return adherent;
     }
@@ -58,7 +59,7 @@ public class Reservation {
     public void setAdherent(Adherent adherent) {
         this.adherent = adherent;
     }
-    
+
     public Oeuvre getOeuvre() {
         return oeuvre;
     }
@@ -98,18 +99,20 @@ public class Reservation {
     public String formatDateReservation(String format) throws Exception {
         return Utilitaire.DateToStr(date_reservation, format);
     }
-    
+
     /**
      * Convertit une chaîne en date avant de l'affecter
+     *
      * @param date_reservation
      * @throws Exception
      */
     public void setDate_reservation(Date date_reservation) throws Exception {
         this.date_reservation = date_reservation;
     }
-   
+
     /**
      * Liste des Réservations en Attente
+     *
      * @return List<Reservation> Collection de Réservations
      * @throws Exception
      */
@@ -125,15 +128,15 @@ public class Reservation {
             String requete = "select * from reservation where statut = 'ATTENTE'";
             ps = connection.prepareStatement(requete);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 reservation = new Reservation(rs.getInt("id_oeuvre"), rs.getInt("id_adherent"));
                 // Construit l'objet à partir du ResulSet retourné
                 constuire(reservation, rs);
                 lReservations.add(reservation);
             }
-         
-            return(lReservations);
+
+            return (lReservations);
         } catch (Exception e) {
             throw e;
         } finally {
@@ -152,6 +155,7 @@ public class Reservation {
 
     /**
      * Confirme une Réservation dans la base de données
+     *
      * @throws Exception
      */
     public void valider(int idOeuvre, String date) throws Exception {
@@ -183,9 +187,10 @@ public class Reservation {
             }
         }
     }
-   
+
     /**
      * Modifie une Réservation dans la base de données
+     *
      * @throws Exception
      */
     public void ajouter() throws Exception {
@@ -220,11 +225,12 @@ public class Reservation {
             }
         }
     }
-    
+
     /**
-    * Modifie une Réservation dans la base de données
-    * @throws Exception
-    */
+     * Modifie une Réservation dans la base de données
+     *
+     * @throws Exception
+     */
     public void supprimer(int idOeuvre, String date) throws Exception {
         PreparedStatement ps = null;
         Connection connection = null;
@@ -256,12 +262,13 @@ public class Reservation {
 
     /**
      * Construction d'une reservation à partir des setters
+     *
      * @param reservation
      * @param rs
      * @throws SQLException
-     * @throws Exception 
+     * @throws Exception
      */
-    private void constuire(Reservation reservation, ResultSet rs) throws SQLException, Exception{
+    private void constuire(Reservation reservation, ResultSet rs) throws SQLException, Exception {
         reservation.setId_adherent(rs.getInt("id_adherent"));
         reservation.setId_oeuvre(rs.getInt("id_oeuvre"));
         reservation.setStatut(rs.getString("statut"));

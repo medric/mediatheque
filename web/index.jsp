@@ -16,7 +16,7 @@
                     <fieldset>
                         <legend>Accès application Oeuvres</legend>
                         <label>Login :</label></br>
-                        <input type="text" name="txtLogin" placeholder="Saisir login..." required="Veuillez compléter ce champ."></br></br>
+                        <input type="text" name="txtLogin" placeholder="Saisir login..." value="${pageContext.request.getParameter("txtLogin")}" required="Veuillez compléter ce champ."></br></br>
                         <label>Mot de passe :</label></br>
                         <input type="password" name="txtPwd" placeholder="Saisir mot de passe..." required="Veuillez compléter ce champ."></br></br>
                         <input type="submit" value="Envoi"class="btn">
