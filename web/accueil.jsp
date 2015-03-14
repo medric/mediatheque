@@ -12,17 +12,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>Accueil</title>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script src="bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <h1 align="center">Gestion des oeuvres</h1>
-        <p align="center">
-            <a href="creer.oeuvre">Ajouter une oeuvre</a><br>
-            <a href="liste.reservation">Confirmer une réservation</a><br>
-            <a href="catalogue.oeuvre">Consulter le catalogue</a><br>
-            <a href="adherent.deconnecter">Se déconnecter</a>
-        </p>
-        <p>
+        <div class="container">
+            <h1 align="center">Gestion des oeuvres</h1>
+            <p align="center">
+                <a href="creer.oeuvre">Ajouter une oeuvre</a><br>
+                <a href="liste.reservation">Confirmer une réservation</a><br>
+                <a href="catalogue.oeuvre">Consulter le catalogue</a><br>
+                <a href="adherent.deconnecter">Se déconnecter</a>
+            </p>
+            <p>
             <c:out value="${erreur}"/>      
         </p>
-    </body>
+    </div>
+</body>
 </html>
