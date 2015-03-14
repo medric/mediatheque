@@ -151,6 +151,12 @@ public class Adherent {
         }
     }
     
+    /**
+     * Construction d'un adherent à partir des setters
+     * @param adherent
+     * @param rs
+     * @throws SQLException 
+     */
     private void constuire(Adherent adherent, ResultSet rs) throws SQLException{
         adherent.setId_adherent(rs.getInt("id_adherent"));
         adherent.setNom_adherent(rs.getString("nom_adherent"));

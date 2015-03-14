@@ -14,6 +14,13 @@ import java.sql.Types;
  * @author Epulapp
  */
 public class Db_outils {
+    /**
+     * 
+     * @param connection
+     * @param id
+     * @return Retourne l'id du dernier enregistrement de la table dint id est passé en paramètre
+     * @throws Exception 
+     */
     public int getIdentifiant(Connection connection, String id) throws Exception {
         CallableStatement cs = null;
         connection.setAutoCommit(false);

@@ -13,6 +13,12 @@ import javax.sql.DataSource;
  * @author Epulapp
  */
 public class Connexion {
+    
+    /**
+     * Connexion à la base de données
+     * @return
+     * @throws Exception 
+     */
     public Connection connecter() throws Exception {
         Context initCtx, envCtx;
         DataSource ds;

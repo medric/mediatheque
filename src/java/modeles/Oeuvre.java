@@ -242,6 +242,12 @@ public class Oeuvre {
         }
     }
     
+    /**
+     * Construction d'une oeuvre à partir des setters
+     * @param oeuvre
+     * @param rs
+     * @throws SQLException 
+     */
     private void constuire(Oeuvre oeuvre, ResultSet rs) throws SQLException{
         oeuvre.setId_oeuvre(rs.getInt("id_oeuvre"));
         oeuvre.setId_proprietaire(rs.getInt("id_proprietaire"));

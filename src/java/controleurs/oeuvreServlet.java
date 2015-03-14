@@ -71,6 +71,12 @@ public class oeuvreServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Lister les oeuvres
+     * @param request
+     * @return les oeuvres
+     * @throws Exception 
+     */
     private String listerOeuvres(HttpServletRequest request) throws Exception {
         Oeuvre oeuvre;
         String pageReponse;
@@ -85,6 +91,12 @@ public class oeuvreServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Création d'une oeuvre
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String creerOeuvre(HttpServletRequest request) throws Exception {
 
         Oeuvre oeuvre;
@@ -108,6 +120,12 @@ public class oeuvreServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Modification d'une oeuvre
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String modifierOeuvre(HttpServletRequest request) throws Exception {
 
         Oeuvre oeuvre;
@@ -137,6 +155,12 @@ public class oeuvreServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Enregistrement d'une oeuvre par mise à jour ou ajout
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String enregistrerOeuvre(HttpServletRequest request) throws Exception {
         Oeuvre oeuvre;
         String pageReponse;

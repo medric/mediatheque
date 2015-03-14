@@ -77,6 +77,12 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Ajouter une réservation
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String ajouterReservation(HttpServletRequest request) throws Exception {
         Oeuvre oeuvre;
         Adherent adherent;
@@ -97,6 +103,12 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Enregistrer une réservation
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String enregistrerReservation(HttpServletRequest request) throws Exception {
         Reservation reservation;
         String pageReponse;
@@ -116,6 +128,12 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Confirmer une réservation
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String confirmerReservation(HttpServletRequest request) throws Exception {
         Reservation reservation;
         String pageReponse;
@@ -131,6 +149,12 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Supprimer une réservation
+     * @param request
+     * @return
+     * @throws Exception 
+     */
      private String supprimerReservation(HttpServletRequest request) throws Exception {
         Reservation reservation;
         String pageReponse;
@@ -146,6 +170,12 @@ public class reservationServlet extends HttpServlet {
         }
     }
     
+     /**
+      * Lister les réservations
+      * @param request
+      * @return
+      * @throws Exception 
+      */
     private String listerReservation(HttpServletRequest request) throws Exception {
         Reservation reservation;
         String pageReponse;

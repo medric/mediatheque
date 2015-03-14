@@ -254,6 +254,13 @@ public class Reservation {
         }
     }
 
+    /**
+     * Construction d'une reservation à partir des setters
+     * @param reservation
+     * @param rs
+     * @throws SQLException
+     * @throws Exception 
+     */
     private void constuire(Reservation reservation, ResultSet rs) throws SQLException, Exception{
         reservation.setId_adherent(rs.getInt("id_adherent"));
         reservation.setId_oeuvre(rs.getInt("id_oeuvre"));

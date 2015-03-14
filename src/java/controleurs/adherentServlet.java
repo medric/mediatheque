@@ -102,6 +102,12 @@ public class adherentServlet extends HttpServlet {
         }
     }
     
+    /**
+     * Déconnecter l'utilisateur
+     * @param request
+     * @return
+     * @throws Exception 
+     */
     private String deconnecter(HttpServletRequest request) throws Exception {
         String pageReponse;
         try {

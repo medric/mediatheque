@@ -131,6 +131,12 @@ public class Proprietaire {
         }
     }
     
+    /**
+     * Construction d'un proprietaire à partir des setters
+     * @param proprietaire
+     * @param rs
+     * @throws SQLException 
+     */
     private void constuire(Proprietaire proprietaire, ResultSet rs) throws SQLException{
        proprietaire.setId_proprietaire(rs.getInt("id_proprietaire"));
        proprietaire.setNom_proprietaire(rs.getString("nom_proprietaire"));
