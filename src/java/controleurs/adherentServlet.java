@@ -113,7 +113,7 @@ public class adherentServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession(true);
             session.setAttribute("id", null);
-            pageReponse = "/login.jsp";
+            pageReponse = "/index.jsp";
             return (pageReponse);
         } catch (Exception e) {
             throw e;

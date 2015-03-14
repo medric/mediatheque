@@ -84,6 +84,7 @@ public class oeuvreServlet extends HttpServlet {
             pageReponse = "";
             oeuvre = new Oeuvre();
             request.setAttribute("lOeuvresR", oeuvre.liste());
+            request.setAttribute("titre", "Catalogue des oeuvres");
             pageReponse = "/catalogue.jsp";
             return (pageReponse);
         } catch (Exception e) {
