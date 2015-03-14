@@ -19,7 +19,7 @@
             <a href="creer.oeuvre">Ajouter une oeuvre</a><br>
             <a href="liste.reservation">Confirmer une réservation</a><br>
             <a href="catalogue.oeuvre">Consulter le catalogue</a><br>
-            <a href="adherent.deconnecter">Se déconnecter</a>
+            <a href="deconnecter.adherent">Se déconnecter</a>
         </p>
         <p>
             <c:out value="${erreur}"/>      

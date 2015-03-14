@@ -42,17 +42,18 @@ public class oeuvreServlet extends HttpServlet {
         // Action demandée
         String demande;
 
-        // Page à injecter
-        String pageReponse = "index.jsp";
+        // Page à injecter par défaut
+        String pageReponse = request.getHeader("referer");
 
         try {
             demande = Utilitaire.getDemande(request);
 
-            // Si l'utilisateur n'est pas authentifié, il est rediriger vers l'index
+            // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
             if (!Utilitaire.estConnecte(request)) {
+                pageReponse = "/";
                 return;
             }
-
+            
             if (demande.equalsIgnoreCase("catalogue.oeuvre")) {
                 pageReponse = listerOeuvres(request);
             } else if (demande.equalsIgnoreCase("creer.oeuvre")) {

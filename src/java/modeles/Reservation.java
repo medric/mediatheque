@@ -160,15 +160,12 @@ public class Reservation {
         try {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
-            connection.setAutoCommit(false);
             String requete = "update reservation set statut = 'Confirmée' where id_oeuvre = ? and date_reservation = ?";
             ps = connection.prepareStatement(requete);
             ps.setInt(1, idOeuvre);
             ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "yyyy-MM-dd").getTime()));
             ps.executeUpdate();
-            connection.commit();
         } catch (Exception e) {
-            connection.rollback();
             throw e;
         } finally {
             try {
@@ -194,7 +191,6 @@ public class Reservation {
         try {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
-            connection.setAutoCommit(false);
             String requete = "insert into reservation(date_reservation, id_oeuvre, id_adherent, statut)";
             requete += " values (?, ?, ?, ?)";
             ps = connection.prepareStatement(requete);
@@ -203,9 +199,7 @@ public class Reservation {
             ps.setInt(3, getId_adherent());
             ps.setString(4, "ATTENTE");
             ps.executeUpdate();
-            connection.commit();
         } catch (Exception e) {
-            connection.rollback();
             throw e;
         } finally {
             try {
@@ -231,15 +225,12 @@ public class Reservation {
         try {
             Connexion cnx = new Connexion();
             connection = cnx.connecter();
-            connection.setAutoCommit(false);
             String requete = "delete from reservation where id_oeuvre = ? and date_reservation = ?";
             ps = connection.prepareStatement(requete);
             ps.setInt(1, idOeuvre);
             ps.setDate(2, new java.sql.Date(Utilitaire.StrToDate(date, "yyyy-MM-dd").getTime()));
             ps.executeUpdate();
-            connection.commit();
         } catch (Exception e) {
-            connection.rollback();
             throw e;
         } finally {
             try {
