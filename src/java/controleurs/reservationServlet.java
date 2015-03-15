@@ -197,6 +197,7 @@ public class reservationServlet extends HttpServlet {
         try {
             reservation = new Reservation();
             request.setAttribute("lReservationsR", reservation.liste());
+            request.setAttribute("titre", "Liste des réservations");
             pageReponse = "/listereservations.jsp";
             return (pageReponse);
         } catch (Exception e) {

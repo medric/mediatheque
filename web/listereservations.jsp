@@ -40,7 +40,6 @@
                         </c:forEach>
                     </tbody>
                 </table>
-                <a href="accueil.jsp">Accueil</a>
             </div>
         </div>
     </div>
