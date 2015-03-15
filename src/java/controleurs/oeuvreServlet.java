@@ -39,8 +39,11 @@ public class oeuvreServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Si l'utilisateur n'est pas authentifié, il est redirigé vers l'index
-        Utilitaire.authRedirect(request, response);
+         // Si l'utilisateur n'est pas authentifié, il est redirigé sur l'index
+        if(!Utilitaire.estConnecte(request)) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
             
         // Action demandée
         String demande;
@@ -54,7 +57,7 @@ public class oeuvreServlet extends HttpServlet {
             demande = Utilitaire.getDemande(request);
                        
             if (demande.equalsIgnoreCase("catalogue.oeuvre")) {
-                pageReponse = listerOeuvres(request);
+                pageReponse = listerOeuvres(request);     
             } else if (demande.equalsIgnoreCase("creer.oeuvre")) {
                 pageReponse = creerOeuvre(request);
             } else if (demande.equalsIgnoreCase("modifier.oeuvre")) {
@@ -71,13 +74,12 @@ public class oeuvreServlet extends HttpServlet {
             
             pageReponse = session.getAttribute("redirect").toString();
             erreur = e.getMessage();
+            request.setAttribute("erreur", erreur);
         } finally {
             if(erreur == null) {
                 session.setAttribute("redirect", null);
             }
-            else {
-                request.setAttribute("erreur", erreur);
-            }
+            
             RequestDispatcher dsp = request.getRequestDispatcher(pageReponse);
             dsp.forward(request, response);
         }

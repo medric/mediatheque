@@ -68,17 +68,7 @@ public class Utilitaire {
         HttpSession session = request.getSession(true);
         return session.getAttribute("id") != null;
     }
-    
-    public static void authRedirect(HttpServletRequest request, HttpServletResponse response) {
-        if(!estConnecte(request)) {
-            try {
-                response.sendRedirect("/");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-    
+   
     public static String getDemande(HttpServletRequest request) {
         String demande = "";
         demande = request.getRequestURI();

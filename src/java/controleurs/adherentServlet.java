@@ -54,10 +54,11 @@ public class adherentServlet extends HttpServlet {
             demande = Utilitaire.getDemande(request);
                 
             if (demande.equalsIgnoreCase("login.adherent")) {
+                erreur = null;
                 pageReponse = connecter(request);
             } 
             else if (demande.equalsIgnoreCase("deconnecter.adherent")) {
-                pageReponse = deconnecter(request);
+                deconnecter(request, response);
             } 
         } catch (Exception e) {
             erreur = e.getMessage();
@@ -108,13 +109,13 @@ public class adherentServlet extends HttpServlet {
      * @return
      * @throws Exception 
      */
-    private String deconnecter(HttpServletRequest request) throws Exception {
+    private String deconnecter(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String pageReponse;
         try {
             HttpSession session = request.getSession(true);
             session.setAttribute("id", null);
             pageReponse = "/index.jsp";
-            return (pageReponse);
+            return pageReponse;
         } catch (Exception e) {
             throw e;
         }
